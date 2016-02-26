@@ -9,7 +9,6 @@ main :-
 main :- write('main failed'), nl.
 
 listen_events(Stream) :-
-    write("Listening to events..."), nl,
     process_create(path(cnee), ['--record', '--keyboard'], [stdout(pipe(Stream))]), !.
 listen_events :- write('listen_events failed'), nl.
 
@@ -43,7 +42,6 @@ format_key(down, key(_, N), N).
 format_key(up, key(N, _), N).
 
 load_mapping :-
-    write('Loading key mapping from xmodmap...'), nl,
     process_create(path(xmodmap), ['-pk'], [stdout(pipe(MappingStream))]),
     read_string(MappingStream, _, MappingString), 
     string_codes(MappingString, MappingCodes),
@@ -100,6 +98,11 @@ makeinfo(N1, N2, key(A1, A2)) :-
     atom_codes(A1, R1), atom_codes(A2, R2).
 
 rename(`NoSymbol`, `unknown`).
+rename(`Prior`, `PageUp`).
+rename(`Next`, `PageDown`).
+rename(`ISO_Left_Tab`, `Tab`).
+rename(`grave`, `backquote`).
+rename(Ascii, NoAscii) :- append(`ascii`, NoAscii, Ascii).
 rename(A, A).
 
 list([``|Xs]) --> `,`, !, list(Xs).
