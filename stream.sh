@@ -18,14 +18,16 @@ AUDIO=off          # on or off
 GOP=`expr $FPS \* 2` # i-frame interval, should be double of FPS, 
 GOPMIN=$FPS          # min i-frame interval, should be equal to FPS
 
-screen=0:v
+stream=0
+
+screen=$((stream++)):v
 screen_opts="-f x11grab -thread_queue_size 1024 -s $INRES -r $FPS -i :0.0"
 
 if [[ $WEBCAM = off ]]; then
   webcam_opts=
   filter="[$screen]copy[out]"
 else
-  webcam=1:v
+  webcam=$((stream++)):v
   webcam_opts="-f v4l2 -thread_queue_size 1024 -video_size 320x240 -framerate $FPS -i /dev/video0"
 
   filter="
@@ -42,12 +44,13 @@ out_opts="
   -s $OUTRES -preset $QUALITY -threads $THREADS
   -bufsize $CBR"
 
+audio=$((stream++)):a
 if [[ $AUDIO = off ]]; then
-  audio_in=
-  audio_out=
+  audio_in="-f lavfi -i anullsrc"
+  audio_out="-strict experimental -acodec aac -map $audio"
 else
   audio_in="-f alsa -thread_queue_size 1024 -ar $AUDIO_RATE -i hw:0"
-  audio_out="-strict experimental -af highpass=f=300,lowpass=f=3000 -acodec aac -map 2:a"
+  audio_out="-af highpass=f=300,lowpass=f=3000 -strict experimental -acodec aac -map $audio"
 fi
 
 ffmpeg $screen_opts $webcam_opts $audio_in -filter_complex "$filter" -map "[out]" \
