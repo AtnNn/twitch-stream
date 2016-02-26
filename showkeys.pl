@@ -28,7 +28,8 @@ act(X-win, C-A-_-S, C-A-X-S).
 act(X-shift, C-A-W-_, C-A-W-X).
 act(up-_, M, M).
 act(down-K, C-A-W-S, C-A-W-S) :-
-    format_modifiers([C,A,W], ["Ctrl-", "Alt-", "Win-"], P),
+    (K=key(N,N), SS=S; SS=up),
+    format_modifiers([C,A,W,SS], ["Ctrl-", "Alt-", "Win-", "Shift-"], P),
     format_key(S, K, PP),
     write(P), write(PP), nl.
 
@@ -89,6 +90,7 @@ line([C|Cs]) --> `\n`, !; [C], line(Cs).
 
 header --> line(_), line(_), line(_), line(_), line(_).
 
+makeinfo(N, `NoSymbol`, I) :- not(N=`NoSymbol`), makeinfo(N, N, I).
 makeinfo(N, _, control) :- append(`Control_`, _, N).
 makeinfo(N, _, shift) :- append(`Shift_`, _, N).
 makeinfo(N, _, alt) :- append(`Alt_`, _, N).
