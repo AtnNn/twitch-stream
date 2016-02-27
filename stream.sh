@@ -8,8 +8,8 @@ INRES=1366x768    # input resolution
 OUTRES=$INRES     # output resolution
 FPS=15            # target FPS
 THREADS=6         # max 6
-CBR=1000k         # constant bitrate (should be between 1000k - 3000k)
-QUALITY=medium    # or 'ultrafast', 'superfast', 'fast', 'medium', 'slow'
+CBR=2000k         # constant bitrate (should be between 1000k - 3000k)
+QUALITY=slow      # or 'ultrafast', 'superfast', 'fast', 'medium', 'slow'
 AUDIO_RATE=11025  # 44100
 SERVER=live-jfk-2
 WEBCAM=off         # on or off
@@ -41,7 +41,7 @@ fi
 out_opts="
   -f flv
   -vcodec libx264 -g $GOP -keyint_min $GOPMIN -b:v $CBR -minrate $CBR -maxrate $CBR -pix_fmt yuv420p
-  -s $OUTRES -preset $QUALITY -threads $THREADS
+  -s $OUTRES -preset $QUALITY -tune animation -threads $THREADS
   -bufsize $CBR"
 
 audio=$((stream++)):a
