@@ -12,7 +12,7 @@ CBR=2000k         # constant bitrate (should be between 1000k - 3000k)
 QUALITY=slow      # or 'ultrafast', 'superfast', 'fast', 'medium', 'slow'
 AUDIO_RATE=11025  # 44100
 SERVER=live-jfk-2
-WEBCAM=off         # on or off
+WEBCAM=on         # on or off
 AUDIO=off          # on or off
 
 GOP=`expr $FPS \* 2` # i-frame interval, should be double of FPS, 

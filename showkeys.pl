@@ -104,6 +104,8 @@ rename(`Prior`, `PageUp`).
 rename(`Next`, `PageDown`).
 rename(`ISO_Left_Tab`, `Tab`).
 rename(`grave`, `backquote`).
+rename(`minus`, `-`).
+rename(`plus`, `+`).
 rename(Ascii, NoAscii) :- append(`ascii`, NoAscii, Ascii).
 rename(A, A).
 
