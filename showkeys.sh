@@ -6,6 +6,8 @@ set -o pipefail
 threshold=200 # milliseconds
 repeat_threshold=500 # milliseconds
 too_long=25 # characters
+x_offset=286
+#x_offset=0
 
 TIMEFORMAT=%R
 
@@ -35,7 +37,7 @@ swipl -F none -s showkeys.pl -t true -g main | \
             continue
         fi
         set -- $out
-        duration=$2
+        duration=${2:-0}
         duration=${duration/.}
         duration=${duration/#0}
         duration=${duration/#0}
@@ -64,4 +66,4 @@ swipl -F none -s showkeys.pl -t true -g main | \
             elapsed=0
         fi
     done | \
-    osd_cat -d 2 --age=1 -p top -A right -f "-*-fixed-*-*-*-*-40-*-*-*-*-*-*-*" -c orange -l 12 -s 2
+    osd_cat -d 2 --age=1 -p top -A right -f "-*-fixed-*-*-*-*-40-*-*-*-*-*-*-*" -c orange -l 12 -s 2 -i $x_offset

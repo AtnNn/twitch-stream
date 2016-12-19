@@ -103,9 +103,20 @@ rename(`NoSymbol`, `unknown`).
 rename(`Prior`, `PageUp`).
 rename(`Next`, `PageDown`).
 rename(`ISO_Left_Tab`, `Tab`).
-rename(`grave`, `backquote`).
+rename(`grave`, `\``).
 rename(`minus`, `-`).
 rename(`plus`, `+`).
+rename(`greater`, `>`).
+rename(`less`, `<`).
+rename(`parenleft`, `(`).
+rename(`parenright`, `)`).
+rename(`bracketleft`, `[`).
+rename(`bracketright`, `]`).
+rename(`braceleft`, `{`).
+rename(`braceright`, `}`).
+rename(`question`, `?`).
+rename(`colon`, `:`).
+rename(`semicolon`, `;`).
 rename(Ascii, NoAscii) :- append(`ascii`, NoAscii, Ascii).
 rename(A, A).
 

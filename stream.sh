@@ -13,7 +13,7 @@ QUALITY=fast      # or 'ultrafast', 'superfast', 'fast', 'medium', 'slow'
 AUDIO_RATE=11025  # 44100
 SERVER=live-jfk-2
 WEBCAM=on         # on, off or filtered
-AUDIO=off          # on or off
+AUDIO=on          # on or off
 
 GOP=`expr $FPS \* 2` # i-frame interval, should be double of FPS,
 GOPMIN=$FPS          # min i-frame interval, should be equal to FPS
@@ -49,7 +49,8 @@ else
     [$screen]
       setpts=PTS-STARTPTS,
       scale=w=$OUTRES_W:h=$OUTRES_H:force_original_aspect_ratio=decrease,
-      pad=w=$OUTRES_W:h=$OUTRES_H:y=0:x=(out_w-in_w)/2
+      pad=w=$OUTRES_W:h=$OUTRES_H:y=0:x=(out_w-in_w)/2,
+      drawtext=textfile=overlay.txt:reload=1:fontcolor=white:fontsize=24
     [bg];
     [bg][$webcam]overlay=W-w:H-h[out]"
 fi
@@ -66,7 +67,8 @@ if [[ $AUDIO = off ]]; then
   audio_out="-strict experimental -acodec aac -map $audio"
 else
   audio_in="-f pulse -thread_queue_size 1024 -ar $AUDIO_RATE -i default"
-  audio_out="-af highpass=f=300,lowpass=f=3000 -strict experimental -acodec aac -map $audio"
+  # audio_out="-af volume=0.8,highpass=f=300,lowpass=f=3000,agate=ratio=9000:threshold=0.02:range=0:release=200:detection=rms -strict experimental -acodec aac -map $audio"
+  audio_out="-strict experimental -acodec aac -map $audio"
 fi
 
 ffmpeg $screen_opts $webcam_opts $audio_in -filter_complex "$filter" -map "[out]" \
