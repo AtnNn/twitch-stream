@@ -6,8 +6,8 @@ set -o pipefail
 threshold=200 # milliseconds
 repeat_threshold=500 # milliseconds
 too_long=25 # characters
-x_offset=286
-#x_offset=0
+# x_offset=286
+x_offset=0
 
 TIMEFORMAT=%R
 

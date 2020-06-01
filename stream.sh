@@ -4,16 +4,18 @@ set -eu -o pipefail
 
 STREAM_KEY=$(cat "$(dirname "$0")/key.secret")
 
-INRES=1080x960    # input resolution
-OUTRES=1366x768     # output resolution
-FPS=15            # target FPS
-THREADS=6         # max 6
+INRES=1366x768    # input resolution
+OUTRES=1366x768   # output resolution
+FPS=10            # target FPS
+THREADS=1         # max 6
 CBR=2000k         # constant bitrate (should be between 1000k - 3000k)
 QUALITY=fast      # or 'ultrafast', 'superfast', 'fast', 'medium', 'slow'
 AUDIO_RATE=11025  # 44100
-SERVER=live-jfk-2
+SERVER=live-lhr04 # From https://stream.twitch.tv/ingests/
 WEBCAM=on         # on, off or filtered
 AUDIO=on          # on or off
+AUDIO_MONITOR=    # Leave empty or find the name in pactl list sources
+AUDIO_MONITOR=alsa_output.pci-0000_00_1b.0.analog-stereo.monitor
 
 GOP=`expr $FPS \* 2` # i-frame interval, should be double of FPS,
 GOPMIN=$FPS          # min i-frame interval, should be equal to FPS
@@ -67,8 +69,16 @@ if [[ $AUDIO = off ]]; then
   audio_out="-strict experimental -acodec aac -map $audio"
 else
   audio_in="-f pulse -thread_queue_size 1024 -ar $AUDIO_RATE -i default"
+  audio_map="-map $audio"
   # audio_out="-af volume=0.8,highpass=f=300,lowpass=f=3000,agate=ratio=9000:threshold=0.02:range=0:release=200:detection=rms -strict experimental -acodec aac -map $audio"
-  audio_out="-strict experimental -acodec aac -map $audio"
+
+  if [[ -n "${AUDIO_MONITOR:-}" ]]; then
+    audio_monitor=$((stream++)):a
+    audio_in="$audio_in -f pulse -thread_queue_size 1024 -ar $AUDIO_RATE -i $AUDIO_MONITOR"
+    audio_map="-filter_complex [$audio][$audio_monitor]amerge[aout] -map [aout] -ac 4"
+  fi
+
+  audio_out="-strict experimental -acodec aac $audio_map"
 fi
 
 ffmpeg $screen_opts $webcam_opts $audio_in -filter_complex "$filter" -map "[out]" \
