@@ -17,17 +17,20 @@ Watch me on https://www.twitch.tv/choongmoo
 * osd\_cat
 * SWI-Prolog
 * Xnee
+* This repository
 
 On Ubuntu:
 
 ```
-apt-get install ffmpeg xosd-bin swi-prolog xnee
+apt-get install ffmpeg xosd-bin swi-prolog xnee git
+git clone https://github.com/AtnNn/twitch-stream
+cd twitch-stream
 ```
 
 # Usage
 
 Place your Twitch stream key in the `key.secret` file.
 
-* Adjust the settings in `stream.sh`.
+* Adjust the settings in [`stream.sh`](streams.sh).
 * Run `./stream.sh` to start streaming.
 * Run `./showkeys.sh` to display the keys being pressed.
