@@ -7,12 +7,12 @@ INRES=1366x768    # Screen resolution
 WEBCAM=on         # on, off or filtered
 MICROPHONE=on     # on or off
 AUDIO_MONITOR=    # Leave empty to disable. To enable, find the name in 'pactl list sources' that corresponds to the monitor
-AUDIO_MONITOR=alsa_output.pci-0000_00_1b.0.analog-stereo.monitor # For example, this is the name of "Monitor of Built-in Audio Analog Stereo"
+# AUDIO_MONITOR=alsa_output.pci-0000_00_1b.0.analog-stereo.monitor # For example, this is the name of "Monitor of Built-in Audio Analog Stereo" on my computer
 
 # Stream destination
 OUTPUT=screen     # 'screen' or 'twitch'
 SERVER=live-lhr04 # Select a server from https://stream.twitch.tv/ingests/
-# Place your twitch key in a 'key.secret' file
+                  # Place your twitch key in the 'key.secret' file
 
 # Stream quality
 OUTRES=1366x768   # output resolution
@@ -25,6 +25,8 @@ AUDIO_RATE=11025  # 44100
 ### End of manual settings ###
 
 set -eu -o pipefail
+
+touch key.secret overlay.txt
 
 STREAM_KEY=$(cat "$(dirname "$0")/key.secret")
 
@@ -109,5 +111,4 @@ else
   echo "NO OUTPUT!"
   exit 1
 fi
-
 
