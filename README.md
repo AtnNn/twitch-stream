@@ -31,6 +31,6 @@ cd twitch-stream
 
 Place your Twitch stream key in the `key.secret` file.
 
-* Adjust the settings in [`stream.sh`](streams.sh).
+* Adjust the "Manual settings" in [`stream.sh`](stream.sh).
 * Run `./stream.sh` to start streaming.
 * Run `./showkeys.sh` to display the keys being pressed.
