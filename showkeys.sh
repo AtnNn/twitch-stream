@@ -66,4 +66,4 @@ swipl -F none -s showkeys.pl -t true -g main | \
             elapsed=0
         fi
     done | \
-    osd_cat -d 2 --age=1 -p top -A right -f "-*-fixed-*-*-*-*-40-*-*-*-*-*-*-*" -c orange -l 12 -s 2 -i $x_offset
+    osd_cat -d 2 --age=1 -p top -A right -f "-*-fixed-*-*-*-*-40-*-*-*-*-*-*-*" -c orange -l 9 -s 2 -i $x_offset
